@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "convert": "node convert-to-ktx2.js"
+    "convert": "node convert-to-ktx2.js",
+    "compress": "node compress-textures.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "homepage": "https://github.com/jellekuipers-dpm/asset-test#readme",
   "dependencies": {
     "@gltf-transform/cli": "^4.2.1",
-    "@gltf-transform/extensions": "^4.2.1"
+    "@gltf-transform/extensions": "^4.2.1",
+    "sharp": "^0.33.0"
   }
 }

@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 
-const { readdirSync, statSync } = require("fs");
-const { join, parse } = require("path");
-const { execSync } = require("child_process");
+const { readdirSync, statSync } = require('fs');
+const { join, parse } = require('path');
+const { execSync } = require('child_process');
 
-const ASSETS_DIR = join(__dirname, "assets");
+const ASSETS_DIR = join(__dirname, 'assets');
 
 // Compression settings
 const QUALITY = 128; // 1-255, lower = smaller files, slightly lower quality (128 is good balance)
 const COMPRESSION = 5; // 0-5, higher = better compression (slower)
-const MAX_TEXTURE_SIZE = 4096; // Maximum texture dimension
+const MAX_TEXTURE_SIZE = 1024; // Maximum texture dimension
 
 function formatBytes(bytes) {
-  if (bytes === 0) return "0 Bytes";
+  if (bytes === 0) return '0 Bytes';
   const k = 1024;
-  const sizes = ["Bytes", "KB", "MB", "GB"];
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
 function getFileSize(filePath) {
@@ -39,7 +39,7 @@ function convertGlbToKtx2(inputPath, outputPath) {
     const command = `npx gltf-transform etc1s "${inputPath}" "${outputPath}" --quality ${QUALITY} --compression ${COMPRESSION}`;
 
     execSync(command, {
-      stdio: "pipe",
+      stdio: 'pipe',
       cwd: __dirname,
     });
 
@@ -57,9 +57,9 @@ function convertGlbToKtx2(inputPath, outputPath) {
 }
 
 async function main() {
-  console.log("GLB to KTX2 Converter");
-  console.log("=====================\n");
-  console.log("Settings:");
+  console.log('GLB to KTX2 Converter');
+  console.log('=====================\n');
+  console.log('Settings:');
   console.log(`  - Quality: ${QUALITY}/255 (lower = smaller files)`);
   console.log(
     `  - Compression: ${COMPRESSION}/5 (higher = better compression)`,
@@ -71,16 +71,16 @@ async function main() {
 
   // Filter for .glb files that don't already have -ktx suffix
   const glbFiles = files.filter(
-    (file) => file.endsWith(".glb") && !file.includes("-ktx"),
+    (file) => file.endsWith('.glb') && !file.includes('-ktx'),
   );
 
   if (glbFiles.length === 0) {
-    console.log("No GLB files found to convert.");
+    console.log('No GLB files found to convert.');
     return;
   }
 
   console.log(`Found ${glbFiles.length} GLB file(s) to convert`);
-  console.log("=".repeat(50));
+  console.log('='.repeat(50));
 
   let successCount = 0;
   let totalOriginalSize = 0;
@@ -103,9 +103,9 @@ async function main() {
   }
 
   // Summary
-  console.log("\n" + "=".repeat(50));
-  console.log("Conversion Summary");
-  console.log("=".repeat(50));
+  console.log('\n' + '='.repeat(50));
+  console.log('Conversion Summary');
+  console.log('='.repeat(50));
   console.log(
     `Successfully converted: ${successCount}/${glbFiles.length} files`,
   );
@@ -118,11 +118,13 @@ async function main() {
     console.log(`Total original size: ${formatBytes(totalOriginalSize)}`);
     console.log(`Total compressed size: ${formatBytes(totalCompressedSize)}`);
     console.log(
-      `Total savings: ${totalSavings}% (${formatBytes(totalOriginalSize - totalCompressedSize)} saved)`,
+      `Total savings: ${totalSavings}% (${formatBytes(
+        totalOriginalSize - totalCompressedSize,
+      )} saved)`,
     );
   }
 
-  console.log("\nConversion complete!");
+  console.log('\nConversion complete!');
 }
 
 main().catch(console.error);
