@@ -123,7 +123,7 @@ async function processTGA(inputPath, outputPath) {
   });
 
   // Resize to max 1024px (maintaining aspect ratio)
-  const maxSize = 1024;
+  const maxSize = 512;
   if (tgaInfo.width > maxSize || tgaInfo.height > maxSize) {
     image = image.resize(maxSize, maxSize, {
       fit: "inside",
